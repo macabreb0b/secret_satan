@@ -15,19 +15,19 @@ creds = flow.run_local_server(port=0)
 service = build('gmail', 'v1', credentials=creds)
 
 def send_email(target_email_address, email):
-	"""
-	:type target_email_address: string
-	:type email: Email
-	"""
-	message = MIMEText(email.body)
-	message['to'] = target_email_address
-	message['subject'] = email.subject
-	formatted_message = {'raw': base64.urlsafe_b64encode(message.as_bytes()).decode()}
+    """
+    :type target_email_address: string
+    :type email: Email
+    """
+    message = MIMEText(email.body)
+    message['to'] = target_email_address
+    message['subject'] = email.subject
+    formatted_message = {'raw': base64.urlsafe_b64encode(message.as_bytes()).decode()}
 
-	try:
-	    message = (service.users().messages().send(userId="me", body=formatted_message).execute())
-	    print(f'sent message to {message} Message Id: {message["id"]}')
-	except HTTPError as error:
-	    print(f'An error occurred: {error}')
-	    message = None
+    try:
+        message = (service.users().messages().send(userId="me", body=formatted_message).execute())
+        print(f'sent message to {message} Message Id: {message["id"]}')
+    except HTTPError as error:
+        print(f'An error occurred: {error}')
+        message = None
 
